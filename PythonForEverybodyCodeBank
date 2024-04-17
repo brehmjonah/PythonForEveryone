@@ -153,7 +153,7 @@ while True:
 print('Maximum is', largest)
 print('Minimum is', smallest)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 6.5
+Assignment 6.5 - Strings and Slicing
 
 6.5 Write code using find() and string slicing (see section 6.10) to extract the number at the end of the line below. Convert the extracted value to a 
 floating point number and print it out.
@@ -167,7 +167,7 @@ num = float(text[pos:])
 print(num)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 7.1
+Assignment 7.1 - Opening a File
 
 7.1 Write a program that prompts for a file name, then opens that file and reads through the file, and print the contents of the file in upper case. Use 
 the file words.txt to produce the output below. You can download the sample data at http://www.py4e.com/code3/words.txt
@@ -182,7 +182,7 @@ for line in fhandle:
     upline = sline.upper()
     print(upline)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 7.2
+Assignment 7.2 - Searching through a file
 
 7.2 Write a program that prompts for a file name, then opens that file and reads through the file, looking for lines of the form:
 X-DSPAM-Confidence:    0.8475
@@ -214,7 +214,7 @@ for line in fhandle:
 
 print('Average spam confidence:', run_tot/count)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 8.4
+Assignment 8.4 - Line Splitting and Lists
 
 8.4 Open the file romeo.txt and read it line by line. For each line, split the line into a list of words using the split() method. The program should 
 build a list of words. For each word on each line check to see if the word is already in the list and if not append it to the list. When the program 
@@ -246,7 +246,7 @@ for word in range((len(mylist))):
 final_list.sort()
 print(final_list)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 8.5
+Assignment 8.5 - String Parsing and Lists
 
 8.5 Open the file mbox-short.txt and read it line by line. When you find a line that starts with 'From ' like the following line:
 From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008
@@ -275,7 +275,7 @@ for line in fhandle:
               
 print('There were', count, 'lines in the file with From as the first word')
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 9.4
+Assignment 9.4 - Dictionaries (Dict)
 
 9.4 Write a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages. The program looks for 'From ' 
 lines and takes the second word of those lines as the person who sent the mail. The program creates a Python dictionary that maps the sender's mail 
@@ -310,7 +310,7 @@ for key in email_dict:
         
 print(finalword, finalcount)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Assignment 10.2
+Assignment 10.2 - Tuples and Dictionaries
 
 10.2 Write a program to read through the mbox-short.txt and figure out the distribution by hour of the day for each of the messages. You can pull the 
 hour out from the 'From ' line by finding the time and then splitting the string a second time using a colon.
@@ -408,7 +408,7 @@ print( sum( [ int(i) for i in re.findall('[0-9]+',open('data11.txt').read()) ] )
 
 # print(sum(my))
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Exploring the HyperText Transport Protocol
+Exploring the HyperText Transport Protocol - Sockets
 
 You are to retrieve the following document using the HTTP protocol in a way that you can examine the HTTP Response headers.
 
@@ -439,7 +439,7 @@ while True:
 mysock.close()
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-Webscraping
+Webscraping - HTML
 
 
 
@@ -486,6 +486,67 @@ for i in range(7):
 print(link[0])
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
+Assignment13 - XML Parsing
+
+
+
+
+import urllib.request, urllib.parse, urllib.error
+import xml.etree.ElementTree as ET
+import ssl
+
+# api_key = False
+# If you have a Google Places API key, enter it here
+# api_key = 'AIzaSy___IDByT70'
+# https://developers.google.com/maps/documentation/geocoding/intro
+
+# if api_key is False:
+#     api_key = 42
+#     serviceurl = 'http://py4e-data.dr-chuck.net/xml?'
+# else :
+#     serviceurl = 'https://maps.googleapis.com/maps/api/geocode/xml?'
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+# while True:
+address = 'http://py4e-data.dr-chuck.net/comments_2009272.xml'
+    # address = input('Enter location: ')
+    # if len(address) < 1: break
+
+    # parms = dict()
+    # parms['address'] = address
+    # if api_key is not False: parms['key'] = api_key
+    # url = serviceurl + urllib.parse.urlencode(parms)
+print('Retrieving', address)
+uh = urllib.request.urlopen(address, context=ctx)
+
+data = uh.read()
+print('Retrieved', len(data), 'characters')
+print(data.decode())
+
+tree = ET.fromstring(data)
+
+stuff = tree.findall('.//comment')
+countlist = []
+for count in stuff:
+    countlist.append(int(count.find('count').text))
+
+sum = 0
+for num in range(len(countlist)):
+    sum = sum + countlist[num]
+
+print(sum)
+
+    # results = tree.findall('result')
+    # lat = results[0].find('geometry').find('location').find('lat').text
+    # lng = results[0].find('geometry').find('location').find('lng').text
+    # location = results[0].find('formatted_address').text
+
+    # print('lat', lat, 'lng', lng)
+    # print(location)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
