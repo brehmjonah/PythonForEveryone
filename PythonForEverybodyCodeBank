@@ -549,6 +549,78 @@ print(sum)
     # print(location)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
+Assignment13 - JSON Parsing
+
+
+
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl
+
+api_key = False
+# If you have a Google Places API key, enter it here
+# api_key = 'AIzaSy___IDByT70'
+# https://developers.google.com/maps/documentation/geocoding/intro
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+
+address = 'http://py4e-data.dr-chuck.net/comments_2009273.json'
+
+uh = urllib.request.urlopen(address, context=ctx)
+
+data = uh.read().decode()
+mydata = json.loads(data)
+mylist = mydata['comments']
+runningtot = []
+count = 0
+totsum = 0
+
+for item in mylist:
+    if item['count'] != None:
+        count = count + 1
+        totsum = totsum + int(item['count'])
+    else:
+        continue
+print(count)
+print(totsum)
+print(type(mydata))
+# results = tree.findall('result')
+# lat = results[0].find('geometry').find('location').find('lat').text
+
+
+
+
+
+
+
+import urllib.request, urllib.parse
+import json, ssl
+
+# Heavily rate limited proxy of https://www.geoapify.com/ api
+serviceurl = 'https://py4e-data.dr-chuck.net/opengeo?'
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+
+address = 'University of Notre Dame'
+
+address = address.strip()
+parms = dict()
+parms['q'] = address
+
+url = serviceurl + urllib.parse.urlencode(parms)
+
+print('Retrieving', url)
+uh = urllib.request.urlopen(url, context=ctx)
+data = uh.read().decode()
+# print('Retrieved', len(data), 'characters', data[:20].replace('/n', ' '))
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
